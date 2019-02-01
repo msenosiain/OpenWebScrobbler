@@ -16,13 +16,14 @@ import { logIn, authUserWithToken } from 'store/actions/userActions';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
-  faLock,
+  faLock
 } from '@fortawesome/free-solid-svg-icons';
 import {
   faLastfm,
   faDiscord,
-  faPatreon,
+  faPatreon
 } from '@fortawesome/free-brands-svg-icons';
+import Spinner from '../components/Spinner';
 
 const bodyDecoration = 'with-shadow';
 
@@ -72,6 +73,7 @@ class Home extends Component {
   render() {
     const t = this.props.t; // Translations
     const isLoggedIn = this.props.user.isLoggedIn;
+    const isBeingLoggedIn = this.props.user.isBeingLoggedIn;
 
     let homeContent;
 
@@ -92,20 +94,29 @@ class Home extends Component {
         </div>
       )
     } else {
-      homeContent = (
-        <div>
-            <p className="text-center">{t('authNeeded')}</p>
-            <p className="lead text-center">
-              <Button onClick={this.props.logIn} size="lg" color="danger">
-                <FontAwesomeIcon icon={faLastfm} color="white" /> {t('logInWithLastFm')}
-              </Button>
-              <br />
-              <small className="text-muted text-copy">
-                <FontAwesomeIcon icon={faLock} /> {t('logInIsSafe')}
-              </small>
-            </p>
-        </div>
-      )
+
+      if (isBeingLoggedIn) {
+        homeContent = (
+          <div>
+            <Spinner/>
+          </div>
+        )
+      } else {
+          homeContent = (
+            <div>
+                <p className="text-center">{t('authNeeded')}</p>
+                <p className="lead text-center">
+                  <Button onClick={this.props.logIn} size="lg" color="danger">
+                    <FontAwesomeIcon icon={faLastfm} color="white" /> {t('logInWithLastFm')}
+                  </Button>
+                  <br />
+                  <small className="text-muted text-copy">
+                    <FontAwesomeIcon icon={faLock} /> {t('logInIsSafe')}
+                  </small>
+                </p>
+            </div>
+          )
+      }
     }
 
     return (

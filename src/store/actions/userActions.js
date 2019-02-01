@@ -7,11 +7,12 @@ import get from 'lodash/get';
 import {
   AUDIOSCROBBLER_API_URL,
   OPENSCROBBLER_API_URL,
+  USER_BEING_LOGGED_IN,
   USER_LOGGED_IN,
   USER_LOGGED_OUT,
   USER_GET_INFO,
   FETCH_LASTFM_USER_INFO,
-  FETCH_LASTFM_USER_HISTORY,
+  FETCH_LASTFM_USER_HISTORY
 } from 'Constants';
 
 import { saveToLocalStorage } from 'localstorage';
@@ -24,6 +25,8 @@ const lastfmAuthURL = `https://www.last.fm/api/auth/?api_key=${process.env.REACT
 
 export function authUserWithToken(dispatch) {
   return (token, onSuccessCallback=null) => {
+    dispatch({type: USER_BEING_LOGGED_IN});
+
     axios.post(`${OPENSCROBBLER_API_URL}/callback.php`, { token: token })
       .then(response => {
         if (get(response, 'data.status') === 'ok') {

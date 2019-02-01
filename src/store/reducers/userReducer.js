@@ -2,6 +2,7 @@ import get from 'lodash/get';
 import hasIn from 'lodash/hasIn';
 
 import {
+  USER_BEING_LOGGED_IN,
   USER_LOGGED_IN,
   USER_LOGGED_OUT,
   USER_GET_INFO,
@@ -11,6 +12,7 @@ import {
 } from 'Constants';
 
 const initialState = {
+  isBeingLoggedIn: null,
   isLoggedIn: null,
   name: '',
   url: '',
@@ -19,34 +21,40 @@ const initialState = {
   recentProfiles: [],
 };
 
-const userReducer = (state=initialState, action) => {
+const userReducer = (state = initialState, action) => {
   let profiles = state.profiles || {};
   let recentProfiles = state.recentProfiles || [];
 
   switch (action.type) {
+    case USER_BEING_LOGGED_IN:
+      return {
+        ...state,
+        isBeingLoggedIn: true
+      }
     case USER_LOGGED_IN:
       return {
         ...state,
-        isLoggedIn: true,
+        isBeingLoggedIn: false,
+        isLoggedIn: true
       }
 
     case USER_LOGGED_OUT:
       return {
           ...initialState,
-          isLoggedIn: false,
+        isLoggedIn: false
       }
 
     case `${USER_GET_INFO}_PENDING`:
       return {
         ...state,
-        userSettingsLoading: true,
+        userSettingsLoading: true
       }
 
     case `${USER_GET_INFO}_REJECTED`:
       // ToDo: Handle this failure
       return {
         ...state,
-        userSettingsLoading: false,
+        userSettingsLoading: false
       }
 
     case `${USER_GET_INFO}_FULFILLED`:
@@ -58,12 +66,12 @@ const userReducer = (state=initialState, action) => {
           name: userData.name || '',
           url: userData.url || '',
           // country: userData.country || '',
-          avatar: userData.image ? {sm: userData.image[1]['#text']} : '',
+          avatar: userData.image ? {sm: userData.image[1]['#text']} : ''
         }
       } else if (action.payload.data.hasOwnProperty('isLoggedIn')) {
         return {
           ...state,
-          isLoggedIn: action.payload.data.isLoggedIn,
+          isLoggedIn: action.payload.data.isLoggedIn
         }
       } else {
         return state;

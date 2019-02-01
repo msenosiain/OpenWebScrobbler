@@ -80,6 +80,7 @@ class Navigation extends Component {
     const t = this.props.t; // Translations
     const lastfmAuthURL = `https://www.last.fm/api/auth/?api_key=${process.env.REACT_APP_LASTFM_API_KEY}` +
                           `&cb=${window.location.protocol}//${window.location.host}/`;
+    const isBeingLoggedIn = this.props.user.isBeingLoggedIn;
 
     let appMenuItems;
     let userMenuItems;
@@ -194,7 +195,7 @@ class Navigation extends Component {
         <Nav className="ml-auto" navbar>
           {getLanguageSelector('d-none d-md-block')}
           <NavItem>
-            <NavLink href={lastfmAuthURL}>
+            <NavLink href={lastfmAuthURL} disabled={isBeingLoggedIn}>
               <FontAwesomeIcon icon={faSignInAlt} />
               {t('logIn')}
             </NavLink>

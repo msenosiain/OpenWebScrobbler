@@ -23,6 +23,7 @@ export const SETTINGS_UPDATE = 'SETTINGS_UPDATE';
 export const SETTINGS_SAVE = 'SETTINGS_SAVE';
 
 // Users store
+export const USER_BEING_LOGGED_IN = 'USER_BEING_LOGGED_IN';
 export const USER_LOGGED_IN = 'USER_LOGGED_IN';
 export const USER_LOGGED_OUT = 'USER_LOGGED_OUT';
 export const USER_GET_INFO = 'USER_GET_INFO';
